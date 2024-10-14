@@ -1,0 +1,77 @@
+server:
+  application:
+    name: basee-service
+  port: 8080
+  address: 0.0.0.0
+  servlet:
+    encoding:
+      force-response: true
+      charset: UTF-8
+
+spring:
+  devtools:
+    add-properties: false
+  jackson:
+    # Date format string or a fully-qualified date format class name. For instance, 'yyyy-MM-dd HH:mm:ss'
+    date-format: "yyyy-MM-dd"
+    # Locale used for formatting
+    time-zone: "GMT-3"
+  jpa:
+    open-in-view: false
+    show-sql: false
+    database: POSTGRESQL
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: none
+  datasource: #Develop
+    url: jdbc:postgresql://localhost:5432/base
+    username: postgres
+    password: postgres
+  flyway:
+    baseline-on-migrate: true #used if database has some already table
+    enabled: true
+    locations: classpath:db/migration
+    url: jdbc:postgresql://localhost:5432/base
+    user: postgres
+    password: postgres
+
+springdoc:
+  pre-loading-locales: en
+  api-docs:
+    enabled: true
+    path: /api-docs # Specify the path of the OpenAPI documentation
+    resolve-schema-properties: true
+  swagger-ui:
+    enabled: true # Enable or disable Swagger UI
+    #    disable-swagger-default-url: true
+    path: /swagger-ui.html # Specify the path of the Swagger UI
+    displayRequestDuration: true
+    operationsSorter: alpha
+  #    tagsSorter: method
+  #    apisSorter: move
+  group-configs[0]:
+    group: api-base-unit
+    display-name: Base Unit
+    paths-to-match: /api/v1/base_unit/**
+
+
+logging:
+  level:
+    org.zalando.logbook: TRACE
+    cl.togo.pm: DEBUG
+    web: DEBUG
+
+logbook:
+  exclude:
+    - /api/v1/api-docs
+
+openapi:
+  version: 1
+  serverUrl: "http://localhost:8080"
+  environment: "production server (qa)"
+  contactMail: osmelpa86@gmail.com
+
+paginated:
+  defaultPageValue: 0
+  defaultSizeValue: 10
+  defaultSortValue: "createdAt.asc"
